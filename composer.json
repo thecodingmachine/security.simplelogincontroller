@@ -3,7 +3,7 @@
     "description": "This package contains a simple Splash controller to log into an application. The controller can display a simple form with username/password choice, and has actions to login/logout the application.",
     "keywords": ["security", "login", "mouf"],
     "homepage": "https://github.com/thecodingmachine/security.simplelogincontroller",
-    "type": "library",
+    "type": "mouf-library",
     "license": "MIT",
     "authors": [
         {
