@@ -1,7 +1,18 @@
 <?php
 namespace Mouf\Security\Controllers;
 
+use Mouf\Html\HtmlElement\HtmlBlock;
+
+use Mouf\Html\HtmlElement\HtmlElementInterface;
+
+use Mouf\Security\UserService\UserService;
+
+use Mouf\Html\Template\TemplateInterface;
+
 use Mouf\Mvc\Splash\Controllers\Controller;
+
+
+
 
 /**
  * A simple controller that provides basic login features.
@@ -140,6 +151,15 @@ class SimpleLoginController extends Controller {
 	protected $redirecturl;
 	
 	/**
+	 * The content block the template will be writting into.
+	 *
+	 * @Property
+	 * @Compulsory
+	 * @var HtmlBlock
+	 */
+	public $contentBlock;
+	
+	/**
 	 * The index page will display the login form.
 	 * 
 	 * @Action
@@ -149,9 +169,8 @@ class SimpleLoginController extends Controller {
 	public function defaultAction($login = null, $redirect = null) {
 		$this->redirecturl = $redirect;
 		$this->login = $login;
-		
-		$this->template->addContentFile(dirname(__FILE__)."/views/login.php", $this);
-		$this->template->draw();
+		$this->contentBlock->addFile(dirname(__FILE__)."/../../../../views/login.php", $this);
+		$this->template->toHtml();
 	}
 	
 	/**
