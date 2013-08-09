@@ -1,9 +1,9 @@
 <div class="smallcenterbox lightbox login_controller">
 <form class='splash' action='login'  method='post'>
-	<input type='hidden' name='redirect' value='{{ this.redirecturl|e('html_attr') }}' />
+	<input type='hidden' name='redirect' value='{{ this.redirecturl }}' />
 	<div>
 		<label for='login'>{{ this.loginLabel }}</label>
-		<input type='text' id='login' class='required' name='login' value="{{ this.login|e('html_attr') }}" />
+		<input type='text' id='login' class='required' name='login' value="{{ this.login }}" />
 	</div>
 	<div>
 		<label for='password'>{{ this.passwordLabel }}</label>
