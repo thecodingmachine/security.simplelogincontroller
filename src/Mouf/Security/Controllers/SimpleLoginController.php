@@ -10,8 +10,11 @@ use Mouf\Security\UserService\UserService;
 use Mouf\Html\Template\TemplateInterface;
 
 use Mouf\Mvc\Splash\Controllers\Controller;
-
-
+use Mouf\Security\Views\SimpleLoginView;
+use Mouf\Html\Widgets\MessageService\Service\SessionMessageService;
+use Mouf\Html\Widgets\MessageService\Service\UserMessageInterface;
+use Mouf\Utils\Value\ValueInterface;
+use Mouf\Utils\Value\ValueUtils;
 
 
 /**
@@ -63,65 +66,33 @@ class SimpleLoginController extends Controller {
 	 * The label for the "login" field.
 	 * 
 	 * @Property
-	 * @var string
+	 * @var string|ValueInterface
 	 */
 	public $loginLabel = "Login";
 
 	/**
-	 * Whether the label for the "login" field should be internationalized or not.
-	 * 
-	 * @Property
-	 * @var boolean
-	 */
-	public $i18nLoginLabel = false;
-	
-	/**
 	 * The label for the "password" field.
 	 * 
 	 * @Property
-	 * @var string
+	 * @var string|ValueInterface
 	 */
 	public $passwordLabel = "Password";
-
-	/**
-	 * Whether the label for the "password" field should be internationalized or not.
-	 * 
-	 * @Property
-	 * @var boolean
-	 */
-	public $i18nPasswordLabel = false;
 	
 	/**
 	 * The label for the "login" submit button.
 	 * 
 	 * @Property
-	 * @var string
+	 * @var string|ValueInterface
 	 */
 	public $loginSubmitLabel = "Login";
-
-	/**
-	 * Whether the label for the "login" submit button should be internationalized or not.
-	 * 
-	 * @Property
-	 * @var boolean
-	 */
-	public $i18nLoginSubmitLabel = false;
 	
 	/**
 	 * The label for the error message if login credentials are wrong.
 	 * 
 	 * @Property
-	 * @var string
+	 * @var string|ValueInterface
 	 */
 	public $badCredentialsLabel = "Invalid login or password, please try again.";
-
-	/**
-	 * Whether the label for the error message should be internationalized or not.
-	 * 
-	 * @Property
-	 * @var boolean
-	 */
-	public $i18nBadCredentialsLabel = false;
 	
 	/**
 	 * The HTML elements that will be displayed before the login box.
@@ -139,16 +110,13 @@ class SimpleLoginController extends Controller {
 	 */
 	public $contentAfterLoginBox;
 	
-	
-	
-	/// Whether we should display an error message or not for bad credentials.
-	protected $badCredentials;
-	
-	protected $userDisabled;
-	
-	protected $login;
-	
-	protected $redirecturl;
+
+	/**
+	 * The service used to display the authentication error message.
+	 *
+	 * @var SessionMessageService $messageservice
+	 */
+	public $messageService;
 	
 	/**
 	 * The content block the template will be writting into.
@@ -167,9 +135,24 @@ class SimpleLoginController extends Controller {
 	 * @param string $redirecturl The URL to redirect to when login is done. If not specified, the default login URL defined in the controller will be used instead.
 	 */
 	public function defaultAction($login = null, $redirect = null) {
-		$this->redirecturl = $redirect;
-		$this->login = $login;
-		$this->contentBlock->addFile(dirname(__FILE__)."/../../../../views/login.php", $this);
+		$loginView = new SimpleLoginView();
+		$loginView->login = $login;
+		$loginView->redirecturl = $redirect;
+		
+		if (is_array($this->contentBeforeLoginBox)) {
+			foreach ($this->contentBeforeLoginBox as $element) {
+				$this->contentBlock->addHtmlElement($element);
+			}
+		}
+		
+		$this->contentBlock->addHtmlElement($loginView);
+		
+		if (is_array($this->contentAfterLoginBox)) {
+			foreach ($this->contentAfterLoginBox as $element) {
+				$this->contentBlock->addHtmlElement($element);
+			}
+		}
+		
 		$this->template->toHtml();
 	}
 	
@@ -187,7 +170,7 @@ class SimpleLoginController extends Controller {
 			// Access forbidden:
 			header('HTTP/1.1 403 Forbidden');
 
-			$this->badCredentials = true;
+			$this->messageService->setMessage(ValueUtils::val($this->badCredentialsLabel), UserMessageInterface::ERROR);
 			$this->defaultAction($login, $redirect);
 			return;
 		} else {
