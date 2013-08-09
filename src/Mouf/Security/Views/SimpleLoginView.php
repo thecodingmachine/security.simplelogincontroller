@@ -20,8 +20,40 @@ use Mouf\Html\Renderer\Renderable;
  * @author David
  * @Component
  */
-class SimpleLoginView {
+class SimpleLoginView implements HtmlElementInterface {
 	use Renderable;
+	
+	/**
+	 * The label for the "login" field.
+	 *
+	 * @Property
+	 * @var string|ValueInterface
+	 */
+	public $loginLabel = "Login";
+	
+	/**
+	 * The label for the "password" field.
+	 *
+	 * @Property
+	 * @var string|ValueInterface
+	 */
+	public $passwordLabel = "Password";
+	
+	/**
+	 * The label for the "login" submit button.
+	 *
+	 * @Property
+	 * @var string|ValueInterface
+	 */
+	public $loginSubmitLabel = "Login";
+	
+	/**
+	 * The label for the error message if login credentials are wrong.
+	 *
+	 * @Property
+	 * @var string|ValueInterface
+	 */
+	public $badCredentialsLabel = "Invalid login or password, please try again.";
 	
 	public $login;
 	

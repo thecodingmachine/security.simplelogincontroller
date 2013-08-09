@@ -63,38 +63,6 @@ class SimpleLoginController extends Controller {
 	public $logoutRedirectUrl;
 	
 	/**
-	 * The label for the "login" field.
-	 * 
-	 * @Property
-	 * @var string|ValueInterface
-	 */
-	public $loginLabel = "Login";
-
-	/**
-	 * The label for the "password" field.
-	 * 
-	 * @Property
-	 * @var string|ValueInterface
-	 */
-	public $passwordLabel = "Password";
-	
-	/**
-	 * The label for the "login" submit button.
-	 * 
-	 * @Property
-	 * @var string|ValueInterface
-	 */
-	public $loginSubmitLabel = "Login";
-	
-	/**
-	 * The label for the error message if login credentials are wrong.
-	 * 
-	 * @Property
-	 * @var string|ValueInterface
-	 */
-	public $badCredentialsLabel = "Invalid login or password, please try again.";
-	
-	/**
 	 * The HTML elements that will be displayed before the login box.
 	 *
 	 * @Property
@@ -110,11 +78,17 @@ class SimpleLoginController extends Controller {
 	 */
 	public $contentAfterLoginBox;
 	
+	/**
+	 * The view object for the login screen.
+	 * 
+	 * @var SimpleLoginView
+	 */
+	public $simpleLoginView;
 
 	/**
 	 * The service used to display the authentication error message.
 	 *
-	 * @var SessionMessageService $messageservice
+	 * @var SessionMessageService
 	 */
 	public $messageService;
 	
@@ -135,9 +109,9 @@ class SimpleLoginController extends Controller {
 	 * @param string $redirecturl The URL to redirect to when login is done. If not specified, the default login URL defined in the controller will be used instead.
 	 */
 	public function defaultAction($login = null, $redirect = null) {
-		$loginView = new SimpleLoginView();
-		$loginView->login = $login;
-		$loginView->redirecturl = $redirect;
+		
+		$this->simpleLoginView->login = $login;
+		$this->simpleLoginView->redirecturl = $redirect;
 		
 		if (is_array($this->contentBeforeLoginBox)) {
 			foreach ($this->contentBeforeLoginBox as $element) {
@@ -145,7 +119,7 @@ class SimpleLoginController extends Controller {
 			}
 		}
 		
-		$this->contentBlock->addHtmlElement($loginView);
+		$this->contentBlock->addHtmlElement($this->simpleLoginView);
 		
 		if (is_array($this->contentAfterLoginBox)) {
 			foreach ($this->contentAfterLoginBox as $element) {
