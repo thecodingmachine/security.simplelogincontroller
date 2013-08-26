@@ -14,7 +14,8 @@
     ],
     "require": {
     	"php": ">=5.3.0",
-        "mouf/security.userservice": "2.*"
+        "mouf/security.userservice": "2.*",
+        "mouf/utils.common.getvars": "2.*"
     },
     "autoload": {
         "psr-0": {
