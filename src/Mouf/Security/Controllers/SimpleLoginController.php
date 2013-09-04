@@ -1,6 +1,8 @@
 <?php
 namespace Mouf\Security\Controllers;
 
+use Mouf\Utils\Action\FillHtmlBlock;
+
 use Mouf\Html\HtmlElement\HtmlBlock;
 
 use Mouf\Html\HtmlElement\HtmlElementInterface;
@@ -15,7 +17,6 @@ use Mouf\Html\Widgets\MessageService\Service\SessionMessageService;
 use Mouf\Html\Widgets\MessageService\Service\UserMessageInterface;
 use Mouf\Utils\Value\ValueInterface;
 use Mouf\Utils\Value\ValueUtils;
-
 
 /**
  * A simple controller that provides basic login features.
@@ -102,6 +103,11 @@ class SimpleLoginController extends Controller {
 	public $contentBlock;
 	
 	/**
+	 * @var array<FillHtmlBlock>
+	 */
+	public $fillActions = array();
+	
+	/**
 	 * The index page will display the login form.
 	 * 
 	 * @Action
@@ -117,6 +123,10 @@ class SimpleLoginController extends Controller {
 			foreach ($this->contentBeforeLoginBox as $element) {
 				$this->contentBlock->addHtmlElement($element);
 			}
+		}
+		
+		foreach ($this->fillActions as $action) {
+			$action->run();
 		}
 		
 		$this->contentBlock->addHtmlElement($this->simpleLoginView);
