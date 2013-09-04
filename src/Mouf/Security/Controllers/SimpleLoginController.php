@@ -1,8 +1,7 @@
 <?php
 namespace Mouf\Security\Controllers;
 
-use Mouf\Utils\Action\FillHtmlBlock;
-
+use Mouf\Utils\Action\ActionInterface;
 use Mouf\Html\HtmlElement\HtmlBlock;
 
 use Mouf\Html\HtmlElement\HtmlElementInterface;
@@ -103,9 +102,10 @@ class SimpleLoginController extends Controller {
 	public $contentBlock;
 	
 	/**
-	 * @var array<FillHtmlBlock>
+	 * Actions to be performed before displaying the view
+	 * @var array<ActionInterface>
 	 */
-	public $fillActions = array();
+	public $actions = array();
 	
 	/**
 	 * The index page will display the login form.
@@ -125,7 +125,7 @@ class SimpleLoginController extends Controller {
 			}
 		}
 		
-		foreach ($this->fillActions as $action) {
+		foreach ($this->actions as $action) {
 			$action->run();
 		}
 		
