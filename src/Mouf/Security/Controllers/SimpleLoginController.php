@@ -63,6 +63,15 @@ class SimpleLoginController extends Controller {
 	public $logoutRedirectUrl;
 	
 	/**
+	 * The URL to redirect if user is already logged and tries to access the login page.
+	 * It is relative to the ROOT_URL and should NOT start with a "/".
+	 * 
+	 * @Property
+	 * @var string
+	 */
+	public $ifLoggedRedirectUrl;
+	
+	/**
 	 * The HTML elements that will be displayed before the login box.
 	 *
 	 * @Property
@@ -115,9 +124,14 @@ class SimpleLoginController extends Controller {
 	 * @param string $redirecturl The URL to redirect to when login is done. If not specified, the default login URL defined in the controller will be used instead.
 	 */
 	public function defaultAction($login = null, $redirect = null) {
+		if ($this->ifLoggedRedirectUrl && $this->userService->isLogged()){
+			header("Location:".ROOT_URL.$this->ifLoggedRedirectUrl);
+			exit;
+		}		
 		
 		$this->simpleLoginView->login = $login;
 		$this->simpleLoginView->redirecturl = $redirect;
+		
 		
 		if (is_array($this->contentBeforeLoginBox)) {
 			foreach ($this->contentBeforeLoginBox as $element) {
