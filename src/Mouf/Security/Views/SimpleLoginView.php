@@ -47,13 +47,6 @@ class SimpleLoginView implements HtmlElementInterface {
 	 */
 	public $loginSubmitLabel = "Login";
 	
-	/**
-	 * The label for the error message if login credentials are wrong.
-	 *
-	 * @Property
-	 * @var string|ValueInterface
-	 */
-	public $badCredentialsLabel = "Invalid login or password, please try again.";
 	
 	public $login;
 	

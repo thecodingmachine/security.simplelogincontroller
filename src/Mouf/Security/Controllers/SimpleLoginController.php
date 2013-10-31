@@ -117,6 +117,14 @@ class SimpleLoginController extends Controller {
 	public $actions = array();
 	
 	/**
+	 * The label for the error message if login credentials are wrong.
+	 *
+	 * @Property
+	 * @var string|ValueInterface
+	 */
+	public $badCredentialsLabel;
+	
+	/**
 	 * The index page will display the login form.
 	 * 
 	 * @Action
