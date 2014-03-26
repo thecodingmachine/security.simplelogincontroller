@@ -3,19 +3,15 @@ namespace Mouf\Security\Controllers;
 
 use Mouf\Utils\Action\ActionInterface;
 use Mouf\Html\HtmlElement\HtmlBlock;
-
 use Mouf\Html\HtmlElement\HtmlElementInterface;
-
-use Mouf\Security\UserService\UserService;
-
 use Mouf\Html\Template\TemplateInterface;
-
 use Mouf\Mvc\Splash\Controllers\Controller;
 use Mouf\Security\Views\SimpleLoginView;
 use Mouf\Html\Widgets\MessageService\Service\SessionMessageService;
 use Mouf\Html\Widgets\MessageService\Service\UserMessageInterface;
 use Mouf\Utils\Value\ValueInterface;
 use Mouf\Utils\Value\ValueUtils;
+use Mouf\Security\UserService\UserServiceInterface;
 
 /**
  * A simple controller that provides basic login features.
@@ -40,7 +36,7 @@ class SimpleLoginController extends Controller {
 	 *
 	 * @Property
 	 * @Compulsory
-	 * @var UserService
+	 * @var UserServiceInterface
 	 */
 	public $userService;
 	
