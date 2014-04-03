@@ -31,7 +31,7 @@ class SimpleLoginInstaller implements PackageInstallerInterface {
 		}
 		$userService = $moufManager->getInstanceDescriptor('userService');
 		$userMessageService = $moufManager->getInstanceDescriptor('userMessageService');
-		$content_block = $moufManager->getInstanceDescriptor('content.block');
+		$content_block = $moufManager->getInstanceDescriptor('block.content');
 		
 		// Let's create the instances.
 		$login = InstallUtils::getOrCreateInstance('login', 'Mouf\\Security\\Controllers\\SimpleLoginController', $moufManager);
