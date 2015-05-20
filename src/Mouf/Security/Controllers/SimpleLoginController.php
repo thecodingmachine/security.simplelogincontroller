@@ -135,7 +135,7 @@ class SimpleLoginController extends Controller {
 		
 		$this->simpleLoginView->login = $login;
 		$this->simpleLoginView->redirecturl = $redirect;
-		
+
 		
 		if (is_array($this->contentBeforeLoginBox)) {
 			foreach ($this->contentBeforeLoginBox as $element) {

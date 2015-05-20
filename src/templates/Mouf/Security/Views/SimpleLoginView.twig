@@ -9,6 +9,12 @@
 		<label for='password'>{{ this.passwordLabel }}</label>
 		<input type='password' id='password' name='password' />
 	</div>
+	{% if addRememberMeCheckbox %}
+    <div>
+		<label for='remember_me'>{{ this.rememberMeLabel }}</label>
+		<input type='checkbox' id='remember_me' name='remember_me' />
+	</div>
+    {% endif %}
 	<div>
 		<button type='submit' name='action' value='login'>{{ this.loginSubmitLabel }}</button>
 	</div>

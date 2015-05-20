@@ -47,8 +47,20 @@ class SimpleLoginView implements HtmlElementInterface {
 	 */
 	public $loginSubmitLabel = "Login";
 	
-	
 	public $login;
 	
 	public $redirecturl;
+
+    /**
+     * @var bool
+     */
+    public $addRememberMeCheckbox;
+
+    /**
+     * The label for the "login" submit button.
+     *
+     * @Property
+     * @var string|ValueInterface
+     */
+    public $rememberMeLabel = "remember me";
 }
