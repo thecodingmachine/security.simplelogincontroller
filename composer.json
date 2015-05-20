@@ -32,7 +32,13 @@
 					"type" : "class",
 					"class" : "Mouf\\Security\\SimpleLoginInstaller"
 				}
-			]
+			],
+            "doc" : [
+              {
+                "title" : "Intergrate the UserService.RememberMe feature",
+                "url" : "doc/integrate_remember_me.md"
+              }
+            ]
 		}
 	}
 }
