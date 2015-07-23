@@ -195,9 +195,15 @@ class SimpleLoginController extends Controller {
 	 *
 	 * @Action
 	 */
-	public function logout() {
+	public function logout($redirect = null) {
 		$this->userService->logoff();
-		header("Location: ".ROOT_URL.$this->logoutRedirectUrl);
+		if($redirect) {
+			header('Location: '.$redirect);
+			return;
+		}
+		else {
+			header("Location: ".ROOT_URL.$this->logoutRedirectUrl);
+		}
 	}
 	
 	/**
