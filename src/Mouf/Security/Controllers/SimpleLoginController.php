@@ -128,10 +128,14 @@ class SimpleLoginController extends Controller {
 	 * @param string $redirecturl The URL to redirect to when login is done. If not specified, the default login URL defined in the controller will be used instead.
 	 */
 	public function defaultAction($login = null, $redirect = null) {
-		if ($this->ifLoggedRedirectUrl && $this->userService->isLogged()){
-			header("Location:".ROOT_URL.$this->ifLoggedRedirectUrl);
-			exit;
-		}		
+        if($this->userService->isLogged()) {
+            if(!$redirect) {
+                header("Location: " . ROOT_URL . $this->ifLoggedRedirectUrl);
+            } else {
+                header("Location: ".$redirect);
+            }
+            exit;
+        }
 		
 		$this->simpleLoginView->login = $login;
 		$this->simpleLoginView->redirecturl = $redirect;
