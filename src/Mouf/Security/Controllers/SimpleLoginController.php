@@ -1,6 +1,7 @@
 <?php
 namespace Mouf\Security\Controllers;
 
+use Mouf\Mvc\Splash\HtmlResponse;
 use Mouf\Utils\Action\ActionInterface;
 use Mouf\Html\HtmlElement\HtmlBlock;
 use Mouf\Html\HtmlElement\HtmlElementInterface;
@@ -12,6 +13,7 @@ use Mouf\Html\Widgets\MessageService\Service\UserMessageInterface;
 use Mouf\Utils\Value\ValueInterface;
 use Mouf\Utils\Value\ValueUtils;
 use Mouf\Security\UserService\UserServiceInterface;
+use Zend\Diactoros\Response\RedirectResponse;
 
 /**
  * A simple controller that provides basic login features.
@@ -127,7 +129,7 @@ class SimpleLoginController extends Controller {
 	 * @param string $login The login to fill by default.
 	 * @param string $redirecturl The URL to redirect to when login is done. If not specified, the default login URL defined in the controller will be used instead.
 	 */
-	public function defaultAction($login = null, $redirect = null) {
+	public function defaultAction($login = null, $redirect = null, $responseCode = 200) {
         if($this->userService->isLogged()) {
             if(!$redirect) {
                 header("Location: " . ROOT_URL . $this->ifLoggedRedirectUrl);
@@ -159,7 +161,7 @@ class SimpleLoginController extends Controller {
 			}
 		}
 		
-		$this->template->toHtml();
+        return new HtmlResponse($this->template, $responseCode);
 	}
 	
 	/**
@@ -174,18 +176,14 @@ class SimpleLoginController extends Controller {
 		$result = $this->userService->login($login, $password);
 		if ($result == false) {
 			// Access forbidden:
-			header('HTTP/1.1 403 Forbidden');
 
 			$this->messageService->setMessage(ValueUtils::val($this->badCredentialsLabel), UserMessageInterface::ERROR);
-			$this->defaultAction($login, $redirect);
-			return;
+			return $this->defaultAction($login, $redirect, 403);
 		} else {
 			if (!empty($redirect)) {
-				header('Location: '.$redirect);
-				return;
+				return new RedirectResponse($redirect);
 			} else {
-				header('Location: '.ROOT_URL.$this->defaultRedirectUrl);
-				return;
+                return new RedirectResponse(ROOT_URL.$this->defaultRedirectUrl);
 			}
 		}
 	}
@@ -198,24 +196,14 @@ class SimpleLoginController extends Controller {
 	public function logout($redirect = null) {
 		$this->userService->logoff();
 		if($redirect) {
-			header('Location: '.$redirect);
-			return;
+			return new RedirectResponse($redirect);
 		}
 		else {
-			header("Location: ".ROOT_URL.$this->logoutRedirectUrl);
-		}
+            return new RedirectResponse(ROOT_URL.$this->logoutRedirectUrl);
+
+        }
 	}
 	
-	/**
-	 * This function draws an array like $left, or $content.
-	 * Those arrays can contain text to draw or function to call.
-	 */
-	protected function drawArray($array) {
-		if (is_array($array)) {
-			foreach ($array as $element) {
-				$element->toHtml();
-			}
-		}
-	}
+
 	
 }
