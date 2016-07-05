@@ -22,7 +22,7 @@ Start by adding the package to your dependencies:
 ```
 {
 	"require" : {
-		"mouf/security.simplelogincontroller" : "~3.1"
+		"mouf/security.simplelogincontroller" : "^5.0"
 	}
 }
 ```

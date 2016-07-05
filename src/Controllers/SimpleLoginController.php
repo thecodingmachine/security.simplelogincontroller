@@ -191,7 +191,7 @@ class SimpleLoginController implements LoginController
      */
     public function index(string $login, string $redirect):ResponseInterface
     {
-        $this->loginPage($login, new Uri($redirect));
+        return $this->loginPage($login, new Uri($redirect));
     }
 
     /**
