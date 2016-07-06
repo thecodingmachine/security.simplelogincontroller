@@ -51,9 +51,6 @@ class SimpleLoginInstaller implements PackageInstallerInterface
         if (!$simpleLoginController->getConstructorArgumentProperty('userService')->isValueSet()) {
             $simpleLoginController->getConstructorArgumentProperty('userService')->setValue($userService);
         }
-        if (!$simpleLoginController->getConstructorArgumentProperty('messageService')->isValueSet()) {
-            $simpleLoginController->getConstructorArgumentProperty('messageService')->setValue($userMessageService);
-        }
         if (!$simpleLoginController->getConstructorArgumentProperty('rootUrl')->isValueSet()) {
             $simpleLoginController->getConstructorArgumentProperty('rootUrl')->setValue('return ROOT_URL;');
             $simpleLoginController->getConstructorArgumentProperty('rootUrl')->setOrigin('php');

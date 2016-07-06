@@ -62,11 +62,21 @@ class SimpleLoginView implements HtmlElementInterface
     /**
      * The label for the "login" submit button.
      *
-     * @Property
-     *
      * @var string|ValueInterface
      */
     private $rememberMeLabel = 'remember me';
+
+    /**
+     * The label displayed if the user fails to login.
+     *
+     * @var string|ValueInterface
+     */
+    private $badCredentialsMessage = 'Sorry, your login or password seems to be incorrect.';
+
+    /**
+     * @var bool
+     */
+    private $displayBadCredentialsMessage = false;
 
     /**
      * @return ValueInterface|string
@@ -193,10 +203,37 @@ class SimpleLoginView implements HtmlElementInterface
      *
      * @param string $loginActionUrl
      */
-    public function setLoginActionUrl($loginActionUrl)
+    public function setLoginActionUrl(string $loginActionUrl)
     {
         $this->loginActionUrl = $loginActionUrl;
     }
 
+    /**
+     * @return ValueInterface|string
+     */
+    public function getBadCredentialsMessage()
+    {
+        return $this->badCredentialsMessage;
+    }
 
+    /**
+     * @param ValueInterface|string $badCredentialsMessage
+     */
+    public function setBadCredentialsMessage($badCredentialsMessage)
+    {
+        $this->badCredentialsMessage = $badCredentialsMessage;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isDisplayBadCredentialsMessage()
+    {
+        return $this->displayBadCredentialsMessage;
+    }
+
+    public function enableBadCredentialsMessage()
+    {
+        $this->displayBadCredentialsMessage = true;
+    }
 }

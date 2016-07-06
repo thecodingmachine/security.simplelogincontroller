@@ -103,13 +103,6 @@ class SimpleLoginController implements LoginController
     private $simpleLoginView;
 
     /**
-     * The service used to display the authentication error message.
-     *
-     * @var SessionMessageService
-     */
-    private $messageService;
-
-    /**
      * The content block the template will be writting into.
      *
      * @Property
@@ -127,15 +120,6 @@ class SimpleLoginController implements LoginController
     private $actions = array();
 
     /**
-     * The label for the error message if login credentials are wrong.
-     *
-     * @Property
-     *
-     * @var string|ValueInterface
-     */
-    private $badCredentialsLabel;
-
-    /**
      * @var string
      */
     private $rootUrl;
@@ -149,23 +133,22 @@ class SimpleLoginController implements LoginController
      * SimpleLoginController constructor.
      *
      * @param TemplateInterface           $template
+     * @param HtmlBlock                   $contentBlock
      * @param UserServiceInterface        $userService
+     * @param SimpleLoginView             $simpleLoginView
      * @param string                      $defaultRedirectUrl
      * @param string                      $logoutRedirectUrl
      * @param string                      $ifLoggedRedirectUrl
      * @param array<HtmlElementInterface> $contentBeforeLoginBox
      * @param array<HtmlElementInterface> $contentAfterLoginBox
-     * @param SimpleLoginView             $simpleLoginView
-     * @param SessionMessageService       $messageService
-     * @param HtmlBlock                   $contentBlock
      * @param array<ActionInterface>      $actions
      * @param string|ValueInterface       $badCredentialsLabel
      * @param string                      $rootUrl
      * @param string                      $baseUrl
      */
-    public function __construct(TemplateInterface $template, HtmlBlock $contentBlock, SimpleLoginView $simpleLoginView, UserServiceInterface $userService, SessionMessageService $messageService, string $rootUrl, string $baseUrl = 'login', string $defaultRedirectUrl = '/', string $logoutRedirectUrl = '/',
+    public function __construct(TemplateInterface $template, HtmlBlock $contentBlock, SimpleLoginView $simpleLoginView, UserServiceInterface $userService, string $rootUrl, string $baseUrl = 'login', string $defaultRedirectUrl = '/', string $logoutRedirectUrl = '/',
                                 string $ifLoggedRedirectUrl = '/', array $contentBeforeLoginBox = array(), array $contentAfterLoginBox = array(),
-                                array $actions = array(), string $badCredentialsLabel = 'Sorry, your login or password seems to be incorrect.')
+                                array $actions = array())
     {
         $this->template = $template;
         $this->userService = $userService;
@@ -175,10 +158,8 @@ class SimpleLoginController implements LoginController
         $this->contentBeforeLoginBox = $contentBeforeLoginBox;
         $this->contentAfterLoginBox = $contentAfterLoginBox;
         $this->simpleLoginView = $simpleLoginView;
-        $this->messageService = $messageService;
         $this->contentBlock = $contentBlock;
         $this->actions = $actions;
-        $this->badCredentialsLabel = $badCredentialsLabel;
         $this->rootUrl = $rootUrl;
         $this->baseUrl = $baseUrl;
     }
@@ -194,7 +175,12 @@ class SimpleLoginController implements LoginController
      */
     public function index(string $login = '', string $redirect = ''):ResponseInterface
     {
-        return $this->loginPage($login, new Uri($redirect));
+        if (!empty($redirect)) {
+            $redirectUrl = new Uri($redirect);
+        } else {
+            $redirectUrl = null;
+        }
+        return $this->loginPage($login, $redirectUrl);
     }
 
     /**
@@ -254,12 +240,18 @@ class SimpleLoginController implements LoginController
     public function login($login, $password, $redirect = null)
     {
         $result = $this->userService->login($login, $password);
-        if ($result == false) {
+        if ($result === false) {
             // Access forbidden:
 
-            $this->messageService->setMessage(ValueUtils::val($this->badCredentialsLabel), UserMessageInterface::ERROR);
+            $this->simpleLoginView->enableBadCredentialsMessage();
 
-            return $this->loginPage($login, new Uri($this->rootUrl.$this->defaultRedirectUrl));
+            if (!empty($redirect)) {
+                $redirectUrl = new Uri($redirect);
+            } else {
+                $redirectUrl = null;
+            }
+
+            return $this->loginPage($login, $redirectUrl);
         } else {
             if (!empty($redirect)) {
                 return new RedirectResponse($redirect);

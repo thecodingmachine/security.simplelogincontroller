@@ -20,7 +20,6 @@
 		"mouf/security.userservice-splash" : "^8.0.0",
 		"mouf/security.userservice" : "^2.1.0",
 		"mouf/utils.action.action-interface" : "~1.0",
-		"mouf/html.widgets.messageservice" : "~3.0",
         "mouf/mvc.splash-common": "^8.0.0"
 	},
 	"autoload" : {
