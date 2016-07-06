@@ -2,6 +2,9 @@
 
 namespace Mouf\Security\Controllers;
 
+use Mouf\Mvc\Splash\Annotations\Get;
+use Mouf\Mvc\Splash\Annotations\Post;
+use Mouf\Mvc\Splash\Annotations\URL;
 use Mouf\Mvc\Splash\HtmlResponse;
 use Mouf\Html\HtmlElement\HtmlBlock;
 use Mouf\Html\Template\TemplateInterface;
@@ -20,8 +23,7 @@ use Zend\Diactoros\Uri;
  * A simple controller that provides basic login features.
  * Very useful to get quickly started, although you might want to develop your own or extend it to add custom features.
  * 
- * @author David
- * @Component
+ * @author David Négrier
  */
 class SimpleLoginController implements LoginController
 {
@@ -161,9 +163,9 @@ class SimpleLoginController implements LoginController
      * @param string                      $rootUrl
      * @param string                      $baseUrl
      */
-    public function __construct(TemplateInterface $template, UserServiceInterface $userService, string $defaultRedirectUrl, string $logoutRedirectUrl,
-                                string $ifLoggedRedirectUrl, array $contentBeforeLoginBox, array $contentAfterLoginBox, SimpleLoginView $simpleLoginView,
-                                SessionMessageService $messageService, HtmlBlock $contentBlock, array $actions, $badCredentialsLabel, string $rootUrl, string $baseUrl)
+    public function __construct(TemplateInterface $template, HtmlBlock $contentBlock, SimpleLoginView $simpleLoginView, UserServiceInterface $userService, SessionMessageService $messageService, string $rootUrl, string $baseUrl = 'login', string $defaultRedirectUrl = '/', string $logoutRedirectUrl = '/',
+                                string $ifLoggedRedirectUrl = '/', array $contentBeforeLoginBox = array(), array $contentAfterLoginBox = array(),
+                                array $actions = array(), string $badCredentialsLabel = 'Sorry, your login or password seems to be incorrect.')
     {
         $this->template = $template;
         $this->userService = $userService;
@@ -185,11 +187,12 @@ class SimpleLoginController implements LoginController
      * The index page will display the login form.
      *
      * @URL("{$this->baseUrl}/")
+     * @Get()
      *
      * @param string $login       The login to fill by default.
      * @param string $redirecturl The URL to redirect to when login is done. If not specified, the default login URL defined in the controller will be used instead.
      */
-    public function index(string $login, string $redirect):ResponseInterface
+    public function index(string $login = '', string $redirect = ''):ResponseInterface
     {
         return $this->loginPage($login, new Uri($redirect));
     }
@@ -213,8 +216,9 @@ class SimpleLoginController implements LoginController
         if ($redirect) {
             $responseCode = 401;
         }
-        $this->simpleLoginView->login = $login;
-        $this->simpleLoginView->redirecturl = $redirect;
+        $this->simpleLoginView->setLogin($login);
+        $this->simpleLoginView->setRedirecturl($redirect);
+        $this->simpleLoginView->setLoginActionUrl($this->rootUrl.$this->baseUrl.'/');
 
         if (is_array($this->contentBeforeLoginBox)) {
             foreach ($this->contentBeforeLoginBox as $element) {
@@ -240,7 +244,8 @@ class SimpleLoginController implements LoginController
     /**
      * Logs the user in.
      *
-     * @Action
+     * @URL("{$this->baseUrl}/")
+     * @Post()
      *
      * @param string $login
      * @param string $password
@@ -254,7 +259,7 @@ class SimpleLoginController implements LoginController
 
             $this->messageService->setMessage(ValueUtils::val($this->badCredentialsLabel), UserMessageInterface::ERROR);
 
-            return $this->loginPage($login, $this->rootUrl.$this->defaultRedirectUrl);
+            return $this->loginPage($login, new Uri($this->rootUrl.$this->defaultRedirectUrl));
         } else {
             if (!empty($redirect)) {
                 return new RedirectResponse($redirect);
@@ -267,7 +272,7 @@ class SimpleLoginController implements LoginController
     /**
      * Logs the user out.
      *
-     * @Action
+     * @URL("{$this->baseUrl}/logout")
      */
     public function logout($redirect = null):ResponseInterface
     {

@@ -42,17 +42,17 @@ class SimpleLoginInstaller implements PackageInstallerInterface
         if (!$simpleLoginController->getConstructorArgumentProperty('template')->isValueSet()) {
             $simpleLoginController->getConstructorArgumentProperty('template')->setValue($bootstrapTemplate);
         }
-        if (!$simpleLoginController->getConstructorArgumentProperty('userService')->isValueSet()) {
-            $simpleLoginController->getConstructorArgumentProperty('userService')->setValue($userService);
+        if (!$simpleLoginController->getConstructorArgumentProperty('contentBlock')->isValueSet()) {
+            $simpleLoginController->getConstructorArgumentProperty('contentBlock')->setValue($block_content);
         }
         if (!$simpleLoginController->getConstructorArgumentProperty('simpleLoginView')->isValueSet()) {
             $simpleLoginController->getConstructorArgumentProperty('simpleLoginView')->setValue($simpleLoginView);
         }
+        if (!$simpleLoginController->getConstructorArgumentProperty('userService')->isValueSet()) {
+            $simpleLoginController->getConstructorArgumentProperty('userService')->setValue($userService);
+        }
         if (!$simpleLoginController->getConstructorArgumentProperty('messageService')->isValueSet()) {
             $simpleLoginController->getConstructorArgumentProperty('messageService')->setValue($userMessageService);
-        }
-        if (!$simpleLoginController->getConstructorArgumentProperty('contentBlock')->isValueSet()) {
-            $simpleLoginController->getConstructorArgumentProperty('contentBlock')->setValue($block_content);
         }
         if (!$simpleLoginController->getConstructorArgumentProperty('rootUrl')->isValueSet()) {
             $simpleLoginController->getConstructorArgumentProperty('rootUrl')->setValue('return ROOT_URL;');

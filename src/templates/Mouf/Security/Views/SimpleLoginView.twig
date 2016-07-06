@@ -1,5 +1,5 @@
 <div class="smallcenterbox lightbox login_controller">
-<form class='splash' action='login'  method='post'>
+<form class='splash' action='{{ this.loginActionUrl }}'  method='post'>
 	<input type='hidden' name='redirect' value='{{ this.redirecturl }}' />
 	<div>
 		<label for='login'>{{ this.loginLabel }}</label>
