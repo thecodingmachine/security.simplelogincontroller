@@ -55,6 +55,11 @@ class SimpleLoginView implements HtmlElementInterface
     private $addRememberMeCheckbox;
 
     /**
+     * @var string
+     */
+    private $loginActionUrl;
+
+    /**
      * The label for the "login" submit button.
      *
      * @Property
@@ -174,4 +179,24 @@ class SimpleLoginView implements HtmlElementInterface
     {
         $this->rememberMeLabel = $rememberMeLabel;
     }
+
+    /**
+     * @return string
+     */
+    public function getLoginActionUrl()
+    {
+        return $this->loginActionUrl;
+    }
+
+    /**
+     * The URL of the login action. It is filled automatically by the SimpleLoginController
+     *
+     * @param string $loginActionUrl
+     */
+    public function setLoginActionUrl($loginActionUrl)
+    {
+        $this->loginActionUrl = $loginActionUrl;
+    }
+
+
 }
