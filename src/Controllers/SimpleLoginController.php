@@ -15,7 +15,9 @@ use Mouf\Utils\Value\ValueInterface;
 use Mouf\Utils\Value\ValueUtils;
 use Mouf\Security\UserService\UserServiceInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UriInterface;
+use Zend\Diactoros\Response\JsonResponse;
 use Zend\Diactoros\Response\RedirectResponse;
 use Zend\Diactoros\Uri;
 
@@ -180,7 +182,7 @@ class SimpleLoginController implements LoginController
         } else {
             $redirectUrl = null;
         }
-        return $this->loginPage($login, $redirectUrl);
+        return $this->displayLoginPage($login, $redirectUrl);
     }
 
     /**
@@ -189,7 +191,19 @@ class SimpleLoginController implements LoginController
      *
      * @return ResponseInterface
      */
-    public function loginPage(string $login = null, UriInterface $redirect = null):ResponseInterface
+    public function loginPage(ServerRequestInterface $request):ResponseInterface
+    {
+        if ($request->getHeaderLine('Accept') === 'application/json') {
+            return new JsonResponse([
+                "success" => false,
+                "error" => "Unauthorized access. Please login."
+            ]);
+        }
+
+        return $this->displayLoginPage(null, $request->getUri());
+    }
+    
+    public function displayLoginPage(string $login = null, UriInterface $redirect = null):ResponseInterface
     {
         if ($this->userService->isLogged()) {
             if (!$redirect) {
@@ -198,10 +212,7 @@ class SimpleLoginController implements LoginController
                 return new RedirectResponse($redirect);
             }
         }
-        $responseCode = 200;
-        if ($redirect) {
-            $responseCode = 401;
-        }
+        
         $this->simpleLoginView->setLogin($login);
         $this->simpleLoginView->setRedirecturl($redirect);
         $this->simpleLoginView->setLoginActionUrl($this->rootUrl.$this->baseUrl.'/');
@@ -224,7 +235,7 @@ class SimpleLoginController implements LoginController
             }
         }
 
-        return new HtmlResponse($this->template, $responseCode);
+        return new HtmlResponse($this->template);
     }
 
     /**
@@ -251,7 +262,7 @@ class SimpleLoginController implements LoginController
                 $redirectUrl = null;
             }
 
-            return $this->loginPage($login, $redirectUrl);
+            return $this->displayLoginPage($login, $redirectUrl)->withStatus(401);
         } else {
             if (!empty($redirect)) {
                 return new RedirectResponse($redirect);
