@@ -59,7 +59,13 @@ class SimpleLoginInstaller implements PackageInstallerInterface
             $simpleLoginController->getConstructorArgumentProperty('baseUrl')->setValue('login');
         }
 
-// Let's rewrite the MoufComponents.php file to save the component
+        if ($moufManager->has('Mouf\\Security\\UnauthorizedMiddleware')) {
+            $unauthorizedMiddleWare = $moufManager->getInstanceDescriptor('Mouf\\Security\\UnauthorizedMiddleware');
+            if(!$unauthorizedMiddleWare->getConstructorArgumentProperty('loginController')->isValueSet()) {
+                $unauthorizedMiddleWare->getConstructorArgumentProperty('loginController')->setValue($simpleLoginController);
+            }
+        }
+        // Let's rewrite the MoufComponents.php file to save the component
         $moufManager->rewriteMouf();
     }
 }
