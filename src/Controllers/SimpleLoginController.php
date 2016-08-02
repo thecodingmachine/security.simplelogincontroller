@@ -138,9 +138,10 @@ class SimpleLoginController implements LoginController
      * @param HtmlBlock                   $contentBlock
      * @param UserServiceInterface        $userService
      * @param SimpleLoginView             $simpleLoginView
-     * @param string                      $defaultRedirectUrl
+     * @param string                      $defaultRedirectUrl Unless a redirecturl parameter is passed in the request, after login, the user will be redirected to this URL. It is relative to the ROOT_URL and should NOT start with a "/".
+
      * @param string                      $logoutRedirectUrl
-     * @param string                      $ifLoggedRedirectUrl
+     * @param string                      $ifLoggedRedirectUrl The URL to redirect if user is already logged and tries to access the login page. It is relative to the ROOT_URL and should NOT start with a "/".
      * @param array<HtmlElementInterface> $contentBeforeLoginBox
      * @param array<HtmlElementInterface> $contentAfterLoginBox
      * @param array<ActionInterface>      $actions
