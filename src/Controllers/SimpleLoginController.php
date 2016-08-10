@@ -194,7 +194,7 @@ class SimpleLoginController implements LoginController
      */
     public function loginPage(ServerRequestInterface $request):ResponseInterface
     {
-        if ($request->getHeaderLine('Accept') === 'application/json') {
+        if (stripos($request->getHeaderLine('Content-Type'), "application/json") === 0) {
             return new JsonResponse([
                 "success" => false,
                 "error" => "Unauthorized access. Please login."
@@ -255,7 +255,7 @@ class SimpleLoginController implements LoginController
         if ($result === false) {
             // Access forbidden:
 
-            if ($request->getHeaderLine('Accept') === 'application/json') {
+            if (stripos($request->getHeaderLine('Content-Type'), "application/json") === 0) {
                 $response = new JsonResponse([
                     "success" => false,
                     "error" => "Unauthorized access. Please login."
@@ -273,7 +273,7 @@ class SimpleLoginController implements LoginController
 
             return $this->displayLoginPage($login, $redirectUrl)->withStatus(401);
         } else {
-            if ($request->getHeaderLine('Accept') === 'application/json') {
+            if (stripos($request->getHeaderLine('Content-Type'), "application/json") === 0) {
                 return new JsonResponse([
                     "success" => true,
                     "message" => "You are logged as '".$login."'"
@@ -297,7 +297,7 @@ class SimpleLoginController implements LoginController
     {
         $this->userService->logoff();
 
-        if ($request->getHeaderLine('Accept') === 'application/json') {
+        if (stripos($request->getHeaderLine('Content-Type'), "application/json") === 0) {
             return new JsonResponse([
                 "success" => true,
                 "message" => "You are logged out."
