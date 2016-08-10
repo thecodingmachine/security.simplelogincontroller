@@ -249,11 +249,19 @@ class SimpleLoginController implements LoginController
      * @param string $password
      * @param string $redirect
      */
-    public function login($login, $password, $redirect = null)
+    public function login(ServerRequestInterface $request, $login, $password, $redirect = null)
     {
         $result = $this->userService->login($login, $password);
         if ($result === false) {
             // Access forbidden:
+
+            if ($request->getHeaderLine('Accept') === 'application/json') {
+                $response = new JsonResponse([
+                    "success" => false,
+                    "error" => "Unauthorized access. Please login."
+                ]);
+                return $response->withStatus(401);
+            }
 
             $this->simpleLoginView->enableBadCredentialsMessage();
 
@@ -265,6 +273,13 @@ class SimpleLoginController implements LoginController
 
             return $this->displayLoginPage($login, $redirectUrl)->withStatus(401);
         } else {
+            if ($request->getHeaderLine('Accept') === 'application/json') {
+                return new JsonResponse([
+                    "success" => true,
+                    "message" => "You are logged as '".$login."'"
+                ]);
+            }
+
             if (!empty($redirect)) {
                 return new RedirectResponse($redirect);
             } else {
@@ -278,9 +293,17 @@ class SimpleLoginController implements LoginController
      *
      * @URL("{$this->baseUrl}/logout")
      */
-    public function logout($redirect = null):ResponseInterface
+    public function logout(ServerRequestInterface $request, $redirect = null):ResponseInterface
     {
         $this->userService->logoff();
+
+        if ($request->getHeaderLine('Accept') === 'application/json') {
+            return new JsonResponse([
+                "success" => true,
+                "message" => "You are logged out."
+            ]);
+        }
+
         if ($redirect) {
             return new RedirectResponse($redirect);
         } else {
