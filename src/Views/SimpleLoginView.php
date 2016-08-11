@@ -5,6 +5,7 @@ namespace Mouf\Security\Views;
 use Mouf\Html\HtmlElement\HtmlElementInterface;
 use Mouf\Html\Renderer\Renderable;
 use Mouf\Utils\Value\ValueInterface;
+use Mouf\Utils\Value\ValueUtils;
 
 /**
  * The view for the login screen.
@@ -79,6 +80,16 @@ class SimpleLoginView implements HtmlElementInterface
     private $displayBadCredentialsMessage = false;
 
     /**
+     * @var string
+     */
+    private $forgotYourPasswordUrl;
+
+    /**
+     * @var string|ValueInterface
+     */
+    private $forgotYourPasswordLabel = 'Forgot your password ?';
+
+    /**
      * @return ValueInterface|string
      */
     public function getLoginLabel()
@@ -95,11 +106,11 @@ class SimpleLoginView implements HtmlElementInterface
     }
 
     /**
-     * @return ValueInterface|string
+     * @return string
      */
     public function getPasswordLabel()
     {
-        return $this->passwordLabel;
+        return ValueUtils::val($this->passwordLabel);
     }
 
     /**
@@ -111,11 +122,11 @@ class SimpleLoginView implements HtmlElementInterface
     }
 
     /**
-     * @return ValueInterface|string
+     * @return string
      */
     public function getLoginSubmitLabel()
     {
-        return $this->loginSubmitLabel;
+        return ValueUtils::val($this->loginSubmitLabel);
     }
 
     /**
@@ -127,7 +138,7 @@ class SimpleLoginView implements HtmlElementInterface
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getLogin()
     {
@@ -135,7 +146,7 @@ class SimpleLoginView implements HtmlElementInterface
     }
 
     /**
-     * @param mixed $login
+     * @param string $login
      */
     public function setLogin($login)
     {
@@ -143,7 +154,7 @@ class SimpleLoginView implements HtmlElementInterface
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getRedirecturl()
     {
@@ -151,7 +162,7 @@ class SimpleLoginView implements HtmlElementInterface
     }
 
     /**
-     * @param mixed $redirecturl
+     * @param string $redirecturl
      */
     public function setRedirecturl($redirecturl)
     {
@@ -175,11 +186,11 @@ class SimpleLoginView implements HtmlElementInterface
     }
 
     /**
-     * @return ValueInterface|string
+     * @return string
      */
     public function getRememberMeLabel()
     {
-        return $this->rememberMeLabel;
+        return ValueUtils::val($this->rememberMeLabel);
     }
 
     /**
@@ -209,11 +220,11 @@ class SimpleLoginView implements HtmlElementInterface
     }
 
     /**
-     * @return ValueInterface|string
+     * @return string
      */
     public function getBadCredentialsMessage()
     {
-        return $this->badCredentialsMessage;
+        return ValueUtils::val($this->badCredentialsMessage);
     }
 
     /**
@@ -235,5 +246,37 @@ class SimpleLoginView implements HtmlElementInterface
     public function enableBadCredentialsMessage()
     {
         $this->displayBadCredentialsMessage = true;
+    }
+
+    /**
+     * @return string
+     */
+    public function getForgotYourPasswordUrl()
+    {
+        return $this->forgotYourPasswordUrl;
+    }
+
+    /**
+     * @param string $forgotYourPasswordUrl
+     */
+    public function setForgotYourPasswordUrl($forgotYourPasswordUrl)
+    {
+        $this->forgotYourPasswordUrl = $forgotYourPasswordUrl;
+    }
+
+    /**
+     * @return ValueInterface|string
+     */
+    public function getForgotYourPasswordLabel()
+    {
+        return ValueUtils::val($this->forgotYourPasswordLabel);
+    }
+
+    /**
+     * @param ValueInterface|string $forgotYourPasswordLabel
+     */
+    public function setForgotYourPasswordLabel($forgotYourPasswordLabel)
+    {
+        $this->forgotYourPasswordLabel = $forgotYourPasswordLabel;
     }
 }

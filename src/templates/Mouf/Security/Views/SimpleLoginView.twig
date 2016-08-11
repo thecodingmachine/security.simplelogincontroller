@@ -21,5 +21,8 @@
 	<div>
 		<button type='submit' name='action' value='login'>{{ this.loginSubmitLabel }}</button>
 	</div>
+	{% if this.forgotYourPasswordUrl %}
+		<a href="{{ constant('ROOT_URL'~this.forgotYourPasswordUrl) }}" >{{ this.forgotYourPasswordLabel }}</a>
+	{% endif %}
 </form>
 </div>
