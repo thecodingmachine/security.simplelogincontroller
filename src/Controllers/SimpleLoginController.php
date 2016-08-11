@@ -20,6 +20,7 @@ use Psr\Http\Message\UriInterface;
 use Zend\Diactoros\Response\JsonResponse;
 use Zend\Diactoros\Response\RedirectResponse;
 use Zend\Diactoros\Uri;
+use Mouf\Html\HtmlElement\HtmlElementInterface;
 
 /**
  * A simple controller that provides basic login features.
