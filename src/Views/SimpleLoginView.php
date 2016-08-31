@@ -18,6 +18,13 @@ class SimpleLoginView implements HtmlElementInterface
     use Renderable;
 
     /**
+     * The label for the "title" field.
+     *
+     * @var string|ValueInterface
+     */
+    private $titleLabel = 'Please sign in';
+
+    /**
      * The label for the "login" field.
      *
      * @var string|ValueInterface
@@ -278,5 +285,21 @@ class SimpleLoginView implements HtmlElementInterface
     public function setForgotYourPasswordLabel($forgotYourPasswordLabel)
     {
         $this->forgotYourPasswordLabel = $forgotYourPasswordLabel;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitleLabel()
+    {
+        return ValueUtils::val($this->titleLabel);
+    }
+
+    /**
+     * @param ValueInterface|string $titleLabel
+     */
+    public function setTitleLabel($titleLabel)
+    {
+        $this->titleLabel = $titleLabel;
     }
 }
