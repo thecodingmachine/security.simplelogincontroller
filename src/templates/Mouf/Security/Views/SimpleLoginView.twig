@@ -1,6 +1,8 @@
 <div class="smallcenterbox lightbox login_controller">
 <form class='splash' action='{{ this.loginActionUrl }}'  method='post'>
 	<input type='hidden' name='redirect' value='{{ this.redirecturl }}' />
+	<h2 class="form-signin-heading">{{ this.titleLabel }}</h2>
+
 	{% if displayBadCredentialsMessage  %}
 		<div class="alert alert-danger">{{ badCredentialsMessage }}</div>
 	{% endif %}
