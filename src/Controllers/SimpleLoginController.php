@@ -150,7 +150,7 @@ class SimpleLoginController implements LoginController
      * @param string                      $rootUrl
      * @param string                      $baseUrl
      */
-    public function __construct(TemplateInterface $template, HtmlBlock $contentBlock, SimpleLoginView $simpleLoginView, UserServiceInterface $userService, string $rootUrl, string $baseUrl = 'login', string $defaultRedirectUrl = '/', string $logoutRedirectUrl = '/',
+    public function __construct(TemplateInterface $template, HtmlBlock $contentBlock, SimpleLoginView $simpleLoginView, UserServiceInterface $userService, string $rootUrl, string $baseUrl = 'login', string $defaultRedirectUrl = '', string $logoutRedirectUrl = '/',
                                 string $ifLoggedRedirectUrl = '/', array $contentBeforeLoginBox = array(), array $contentAfterLoginBox = array(),
                                 array $actions = array())
     {
@@ -284,7 +284,7 @@ class SimpleLoginController implements LoginController
             if (!empty($redirect)) {
                 return new RedirectResponse($redirect);
             } else {
-                return new RedirectResponse($this->rootUrl.$this->defaultRedirectUrl);
+                return new RedirectResponse($this->normalizeUrl($this->defaultRedirectUrl));
             }
         }
     }
@@ -308,11 +308,28 @@ class SimpleLoginController implements LoginController
         if ($redirect) {
             return new RedirectResponse($redirect);
         } else {
-            return new RedirectResponse($this->rootUrl.$this->logoutRedirectUrl);
+            return new RedirectResponse($this->normalizeUrl($this->logoutRedirectUrl));
         }
     }
 
     private function isJson(ServerRequestInterface $request){
         return stripos($request->getHeaderLine('Content-Type'), "application/json") === 0;
+    }
+
+    /**
+     * Analyzes a URL. If it does not start with http:// or https://, let's make it relative to root_url, unless it starts with /
+     *
+     * @param $url
+     * @return string
+     */
+    private function normalizeUrl($url) : string
+    {
+        if (strpos($url, 'http://') === 0 || strpos($url, 'https://') === 0) {
+            return $url;
+        }
+        if (strpos($url, '/') === 0) {
+            return $url;
+        }
+        return $this->rootUrl.$url;
     }
 }
