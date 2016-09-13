@@ -180,7 +180,7 @@ class SimpleLoginController implements LoginController
     public function index(string $login = '', string $redirect = ''):ResponseInterface
     {
         if (!empty($redirect)) {
-            $redirectUrl = new Uri($redirect);
+            $redirectUrl = $redirect;
         } else {
             $redirectUrl = null;
         }
@@ -202,10 +202,10 @@ class SimpleLoginController implements LoginController
             ]);
         }
 
-        return $this->displayLoginPage(null, $request->getUri());
+        return $this->displayLoginPage(null, $request->getRequestTarget());
     }
     
-    public function displayLoginPage(string $login = null, UriInterface $redirect = null):ResponseInterface
+    public function displayLoginPage(string $login = null, string $redirect = null):ResponseInterface
     {
         if ($this->userService->isLogged()) {
             if (!$redirect) {
