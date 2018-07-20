@@ -2,9 +2,6 @@
 
 namespace Mouf\Security\Controllers;
 
-use Mouf\Mvc\Splash\Annotations\Get;
-use Mouf\Mvc\Splash\Annotations\Post;
-use Mouf\Mvc\Splash\Annotations\URL;
 use Mouf\Mvc\Splash\HtmlResponse;
 use Mouf\Html\HtmlElement\HtmlBlock;
 use Mouf\Html\Template\TemplateInterface;
@@ -17,6 +14,9 @@ use Mouf\Security\UserService\UserServiceInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UriInterface;
+use TheCodingMachine\Splash\Annotations\Get;
+use TheCodingMachine\Splash\Annotations\Post;
+use TheCodingMachine\Splash\Annotations\URL;
 use Zend\Diactoros\Response\JsonResponse;
 use Zend\Diactoros\Response\RedirectResponse;
 use Zend\Diactoros\Uri;
