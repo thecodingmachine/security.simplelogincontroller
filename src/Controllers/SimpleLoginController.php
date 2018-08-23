@@ -133,11 +133,6 @@ class SimpleLoginController implements LoginController
     private $baseUrl = 'login';
 
     /**
-     * @var RendererInterface
-     */
-    private $renderer;
-
-    /**
      * SimpleLoginController constructor.
      *
      * @param TemplateInterface           $template
