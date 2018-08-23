@@ -157,7 +157,7 @@ class SimpleLoginController implements LoginController
      */
     public function __construct(TemplateInterface $template, HtmlBlock $contentBlock, SimpleLoginView $simpleLoginView, UserServiceInterface $userService, string $rootUrl, string $baseUrl = 'login', string $defaultRedirectUrl = '', string $logoutRedirectUrl = '/',
                                 string $ifLoggedRedirectUrl = '/', array $contentBeforeLoginBox = array(), array $contentAfterLoginBox = array(),
-                                array $actions = array(), RendererInterface $renderer = null)
+                                array $actions = array())
     {
         $this->template = $template;
         $this->userService = $userService;
@@ -171,7 +171,6 @@ class SimpleLoginController implements LoginController
         $this->actions = $actions;
         $this->rootUrl = $rootUrl;
         $this->baseUrl = $baseUrl;
-        $this->renderer = $renderer /*?: \Mouf::getDefaultRenderer()*/;
     }
 
     /**
@@ -235,7 +234,7 @@ class SimpleLoginController implements LoginController
             $action->run();
         }
 
-        $this->contentBlock->addText($this->renderer->render($this->simpleLoginView));
+        $this->contentBlock->addHtmlElement($this->simpleLoginView);
 
         if (is_array($this->contentAfterLoginBox)) {
             foreach ($this->contentAfterLoginBox as $element) {
