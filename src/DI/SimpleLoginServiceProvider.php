@@ -8,6 +8,7 @@ use Mouf\Security\Controllers\SimpleLoginController;
 use Mouf\Security\UserService\UserServiceInterface;
 use Mouf\Security\Views\SimpleLoginView;
 use Psr\Container\ContainerInterface;
+use TheCodingMachine\Funky\Annotations\Extension;
 use TheCodingMachine\Funky\Annotations\Factory;
 use TheCodingMachine\Funky\ServiceProvider;
 
@@ -42,5 +43,14 @@ class SimpleLoginServiceProvider extends ServiceProvider
     public static function createSimpleLoginView(ContainerInterface $container): SimpleLoginView
     {
         return new SimpleLoginView();
+    }
+
+    /**
+     * @Extension(name="thecodingmachine.splash.controllers")
+     */
+    public static function extendControllers(array $controllers): array
+    {
+        $controllers[] = SimpleLoginController::class;
+        return $controllers;
     }
 }
