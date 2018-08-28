@@ -18,7 +18,7 @@
 	"require" : {
 		"php" : "^7.1",
 		"mouf/security.userservice-splash" : "^10",
-		"mouf/security.userservice" : "^2.1.0",
+		"mouf/security.userservice" : "^2.1.0 || ^3",
 		"mouf/utils.action.action-interface" : "~1.0",
         "thecodingmachine/splash-router": "^10.0",
 		"thecodingmachine/funky": "^1"
