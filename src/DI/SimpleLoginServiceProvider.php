@@ -23,7 +23,7 @@ class SimpleLoginServiceProvider extends ServiceProvider
             $container->get('block.content'),
             $container->get(SimpleLoginView::class),
             $container->get(UserServiceInterface::class),
-            $container->get('ROOT_URL')
+            $container->get('root_url')
             );
     }
 
