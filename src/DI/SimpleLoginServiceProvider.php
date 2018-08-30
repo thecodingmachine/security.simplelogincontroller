@@ -5,6 +5,7 @@ namespace Mouf\Security\DI;
 use Interop\Container\Factories\Alias;
 use Mouf\Html\Template\TemplateInterface;
 use Mouf\Security\Controllers\SimpleLoginController;
+use Mouf\Security\Controllers\LoginController;
 use Mouf\Security\UserService\UserServiceInterface;
 use Mouf\Security\Views\SimpleLoginView;
 use Psr\Container\ContainerInterface;
@@ -15,7 +16,7 @@ use TheCodingMachine\Funky\ServiceProvider;
 class SimpleLoginServiceProvider extends ServiceProvider
 {
     /**
-     * @Factory()
+     * @Factory(aliases={LoginController::class})
      */
     public static function createSimpleLoginController(ContainerInterface $container): SimpleLoginController
     {
