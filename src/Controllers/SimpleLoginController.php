@@ -17,9 +17,9 @@ use Psr\Http\Message\UriInterface;
 use TheCodingMachine\Splash\Annotations\Get;
 use TheCodingMachine\Splash\Annotations\Post;
 use TheCodingMachine\Splash\Annotations\URL;
-use Zend\Diactoros\Response\JsonResponse;
-use Zend\Diactoros\Response\RedirectResponse;
-use Zend\Diactoros\Uri;
+use Laminas\Diactoros\Response\JsonResponse;
+use Laminas\Diactoros\Response\RedirectResponse;
+use Laminas\Diactoros\Uri;
 use Mouf\Html\HtmlElement\HtmlElementInterface;
 
 /**
