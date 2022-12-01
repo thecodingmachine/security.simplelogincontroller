@@ -17,13 +17,13 @@
         }
     ],
     "require": {
-        "php": "^7.1",
+        "php": "^8.0",
         "mouf/security.userservice-splash": "^10",
         "mouf/security.userservice": "^2.1.0 || ^3",
         "mouf/utils.action.action-interface": "~1.0",
         "thecodingmachine/splash-router": "^10.0",
         "thecodingmachine/funky": "^1",
-        "laminas/laminas-dependency-plugin": "^1.0"
+        "laminas/laminas-dependency-plugin": "^2.2"
     },
     "autoload": {
         "psr-4": {
@@ -44,6 +44,15 @@
                     "url": "doc/integrate_remember_me.md"
                 }
             ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "allow-plugins": {
+            "laminas/laminas-dependency-plugin": true,
+            "mindplay/composer-locator": true,
+            "mouf/mouf-installer": true
         }
     }
 }
